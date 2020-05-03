@@ -21,19 +21,6 @@ angle = -20
 color = 255
 oval_model = cv2.ellipse(oval_matrix, center, size, angle, 0, 360, color, thickness=-1)  # 取得椭圆肤色模型
 
-'''
-# 建立一个矩阵
-oval_png = np.zeros((256, 256, 3), dtype=np.uint8)
-# gray = cv2.cvtColor(oval_model, cv2.COLOR_BGR2GRAY)
-r, rst = cv2.threshold(oval_model, 100, 255, cv2.THRESH_BINARY)
-oval_png[:, :, 0] = oval_model
-oval_png[:, :, 1] = oval_model
-oval_png[:, :, 2] = oval_model
-# print(oval_model)
-cv2.imshow('oval', oval_png)
-time.sleep(10)
-'''
-
 
 # 使用椭圆肤色模型检测
 def oval_test(img):
@@ -59,6 +46,8 @@ def oval_test(img):
 
     draw = outline_cut(img_and, img)
     '''
+    # 图像腐蚀操作
+    # 暂时不用
     img_gray = cv2.cvtColor(img_and, cv2.COLOR_BGR2GRAY)                  # 脸部转换成灰度图
     r, img_binary = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY)  # 脸部转换成二值图，准备进行腐蚀操作
     img_read_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)             # 完整图片转换
