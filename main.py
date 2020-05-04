@@ -15,10 +15,10 @@ while capture.isOpened():        # 判断摄像头是否正常开启
     ret, frame = capture.read()  # 抽取视频帧为图片
     # frame_oval = frame
     # adaboost算法识别
-    adaboost_output = adaboost_test(frame)         # 调用自定义模块，使用adaboost算法检测
-    cv2.imshow('adaboost_output', adaboost_output)
-    # oval_output = oval_test(frame)                 # 调用自定义模块，使用肤色模型去除肤色区域
-    # cv2.imshow('oval_output', oval_output)
+    # adaboost_output = adaboost_test(frame)         # 调用自定义模块，使用adaboost算法检测
+    # cv2.imshow('adaboost_output', adaboost_output)
+    oval_output = oval_test(frame)                 # 调用自定义模块，使用肤色模型去除肤色区域
+    cv2.imshow('oval_output', oval_output)
 
     c = cv2.waitKey(25)  # 按ESC结束
     if c == 27:

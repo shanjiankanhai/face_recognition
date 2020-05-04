@@ -5,6 +5,7 @@
 """
 import cv2
 import numpy as np
+from calculate import cal_eyes_pos
 
 eye_path = r'haarcascade_eye_tree_eyeglasses.xml'
 eye_cascade = cv2.CascadeClassifier(eye_path)
@@ -47,14 +48,16 @@ def outline_cut(img, img_face):
     cv2.drawContours(img_face, [br], -1, (255, 255, 255), 2)                   # 画出矩形框框住人脸
 
     # 画出眼睛所在的区域
-    face_re = img_face[y:y + h, x:x + w]  # 抽取出框出的脸部部分，注意顺序y在前
-    eyes = eye_cascade.detectMultiScale(face_re)  # 在框出的脸部部分识别眼睛
+    face_re = img_face[y:y + h, x:x + w]                            # 抽取出框出的脸部部分，注意顺序y在前
+    eyes = eye_cascade.detectMultiScale(face_re)                    # 在框出的脸部部分识别眼睛
+    lean_angle, revolve_angle = cal_eyes_pos(eyes)                  # 返回头部的倾斜和旋转
+    lean_string = 'lean:{:.02f}'.format(lean_angle)
+    revolve_string = 'revolve:{}'.format(revolve_angle)
+    cv2.putText(img_face, lean_string, (x + w + 5, y + 20), 3, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
+    cv2.putText(img_face, revolve_string, (x + w + 5, y + 50), 3, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
     for (ex, ey, ew, eh) in eyes:
         cv2.rectangle(face_re, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
     # cv2.circle(loc, (cX, cY), 5, (0, 0, 255), -1)                         # 画出中心点所在位置
-    # cv2.imshow('mask', mask)
-
-    # cv2.imshow('loc', loc)
 
     return img_face
 
